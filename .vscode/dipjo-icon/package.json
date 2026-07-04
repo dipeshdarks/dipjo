@@ -1,0 +1,25 @@
+{
+    "name": "dipjo-icon",
+    "displayName": "Dipjo File Icon",
+    "description": "Adds Dipjo icon to .dipjo files",
+    "version": "1.0.0",
+    "publisher": "dipjo",
+    "engines": { "vscode": "^1.0.0" },
+    "categories": ["Other"],
+    "contributes": {
+        "languages": [{
+            "id": "dipjo",
+            "aliases": ["Dipjo", "dipjo"],
+            "extensions": [".dipjo"],
+            "icon": {
+                "light": "icon.ico",
+                "dark": "icon.ico"
+            }
+        }],
+        "fileExtensions": [{
+            "extension": ".dipjo",
+            "icon": "icon.ico",
+            "language": "dipjo"
+        }]
+    }
+}

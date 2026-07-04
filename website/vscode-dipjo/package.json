@@ -1,0 +1,15 @@
+{
+    "name": "Dipjo",
+    "displayName": "Dipjo Language",
+    "description": "Syntax highlighting for Dipjo programming language",
+    "version": "1.0.0",
+    "engines": { "vscode": "^1.0.0" },
+    "contributes": {
+        "languages": [{
+            "id": "dipjo",
+            "aliases": ["Dipjo", "dipjo"],
+            "extensions": [".dipjo"],
+            "configuration": "./language.json"
+        }]
+    }
+}

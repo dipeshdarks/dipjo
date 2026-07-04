@@ -1,0 +1,19 @@
+{
+    "comments": {
+        "lineComment": "note"
+    },
+    "brackets": [],
+    "autoClosingPairs": [
+        { "open": "\"", "close": "\"" }
+    ],
+    "surroundingPairs": [
+        { "open": "\"", "close": "\"" }
+    ],
+    "folding": {
+        "markers": {
+            "start": "^note\\s",
+            "end": "^finish"
+        }
+    },
+    "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\=\\+\\{\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)"
+}

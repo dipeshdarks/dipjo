@@ -1,0 +1,15 @@
+{
+    "name": "Dipjo Icons",
+    "fileExtensions": {
+        "dipjo": "_dipjo"
+    },
+    "fileNames": {},
+    "languageIds": {
+        "dipjo": "_dipjo"
+    },
+    "iconDefinitions": {
+        "_dipjo": {
+            "iconPath": "icons/dipjo.ico"
+        }
+    }
+}

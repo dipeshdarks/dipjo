@@ -1,0 +1,55 @@
+create list tasks as .
+
+say "=== Dipjo To-Do List App ===".
+
+remember running as true.
+
+while running is true,
+
+say "".
+say "1. Add Task".
+say "2. View Tasks".
+say "3. Remove Task".
+say "4. Exit".
+
+say "Enter choice:".
+remember choice as input.
+
+if choice is equal to "1",
+
+say "Enter task:".
+remember new_task as input.
+
+put new_task into tasks.
+say "Task added!".
+
+finish condition.
+
+if choice is equal to "2",
+
+say "Your Tasks:".
+
+for every item in tasks,
+say item.
+finish loop.
+
+finish condition.
+
+if choice is equal to "3",
+
+say "Enter task to remove:".
+remember remove_task as input.
+
+remove remove_task from tasks.
+say "Task removed!".
+
+finish condition.
+
+if choice is equal to "4",
+
+say "Goodbye!".
+remember running as false.
+
+finish condition.
+
+finish while.

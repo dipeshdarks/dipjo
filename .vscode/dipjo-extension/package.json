@@ -1,0 +1,61 @@
+{
+    "name": "dipjo-lang",
+    "displayName": "Dipjo Language",
+    "description": "Complete Dipjo language support - syntax, icons, runner, and theme",
+    "version": "1.0.0",
+    "publisher": "dipjo",
+    "engines": { "vscode": "^1.70.0" },
+    "categories": ["Programming Languages", "Themes"],
+    "activationEvents": ["onLanguage:dipjo"],
+    "main": "./extension.js",
+    "contributes": {
+        "languages": [{
+            "id": "dipjo",
+            "aliases": ["Dipjo", "dipjo"],
+            "extensions": [".dipjo"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "dipjo",
+            "scopeName": "source.dipjo",
+            "path": "./syntaxes/dipjo.tmLanguage.json"
+        }],
+        "themes": [{
+            "id": "dipjo-jellyfish",
+            "label": "Dipjo JellyFish",
+            "uiTheme": "vs-dark",
+            "path": "./themes/dipjo-jellyfish-color-theme.json"
+        }],
+        "iconThemes": [{
+            "id": "dipjo-icons",
+            "label": "Dipjo Icons",
+            "path": "./icon-themes/dipjo-icons.json"
+        }],
+        "commands": [{
+            "command": "dipjo.run",
+            "title": "Dipjo: Run Current File",
+            "icon": "$(play)"
+        }, {
+            "command": "dipjo.runSelected",
+            "title": "Dipjo: Run Selected Code",
+            "icon": "$(debug-alt)"
+        }],
+        "menus": {
+            "editor/context": [{
+                "command": "dipjo.runSelected",
+                "when": "editorHasSelection && editorLangId == dipjo",
+                "group": "dipjo"
+            }],
+            "editor/title": [{
+                "command": "dipjo.run",
+                "when": "editorLangId == dipjo",
+                "group": "navigation"
+            }]
+        },
+        "keybindings": [{
+            "command": "dipjo.run",
+            "key": "ctrl+f5",
+            "when": "editorLangId == dipjo"
+        }]
+    }
+}

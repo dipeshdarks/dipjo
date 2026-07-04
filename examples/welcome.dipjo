@@ -1,0 +1,18 @@
+say "Welcome to Dipjo".
+
+ask "Enter your name" and save in name.
+
+if name is equal to "Dip",
+say "Creator detected".
+otherwise,
+say "Hello", name.
+finish condition.
+
+define function square using number.
+create number result as number times number.
+give back result.
+finish function.
+
+remember answer as run function square using 5.
+
+say answer.

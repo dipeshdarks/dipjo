@@ -1,0 +1,24 @@
+"editor.tokenColorCustomizations": {
+  "textMateRules": [
+    {
+      "scope": "comment.line.note.dipjo",
+      "settings": { "foreground": "#5a5a8e", "fontStyle": "italic" }
+    },
+    {
+      "scope": "string.quoted.double.dipjo",
+      "settings": { "foreground": "#00f5d4" }
+    },
+    {
+      "scope": "constant.numeric.dipjo",
+      "settings": { "foreground": "#ffbe0b" }
+    },
+    {
+      "scope": "constant.language.boolean.dipjo",
+      "settings": { "foreground": "#ff6b6b" }
+    },
+    {
+      "scope": "keyword.control.dipjo",
+      "settings": { "foreground": "#9b5de5", "fontStyle": "bold" }
+    }
+  ]
+}

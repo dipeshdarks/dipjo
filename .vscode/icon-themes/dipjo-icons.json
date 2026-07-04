@@ -1,0 +1,16 @@
+{
+    "name": "Dipjo Icons",
+    "fileExtensions": {
+        "dipjo": "icons/dipjo"
+    },
+    "fileNames": {
+        "main.py": "icons/python",
+        "ast_nodes.py": "icons/python",
+        "lexer.py": "icons/python",
+        "parser.py": "icons/python",
+        "interpreter.py": "icons/python"
+    },
+    "languageIds": {
+        "dipjo": "icons/dipjo"
+    }
+}

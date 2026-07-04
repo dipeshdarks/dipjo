@@ -1,0 +1,24 @@
+{
+    "comments": { "lineComment": "note" },
+    "brackets": [],
+    "autoClosingPairs": [
+        { "open": "\"", "close": "\"" }
+    ],
+    "surroundingPairs": [
+        { "open": "\"", "close": "\"" }
+    ],
+    "keywords": [
+        "create", "remember", "set", "say", "ask", "and", "save", "in",
+        "if", "otherwise", "finish", "condition",
+        "repeat", "times", "from", "to", "while", "loop",
+        "for", "every",
+        "define", "function", "using", "run", "give", "back",
+        "add", "subtract", "multiply", "divide", "increase", "decrease",
+        "to", "from", "by", "into",
+        "put", "remove",
+        "is", "equal", "not", "greater", "less", "or",
+        "true", "false",
+        "number", "text", "truth", "list", "letter",
+        "note", "as"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "name": "dipjo-icons",
+    "displayName": "Dipjo File Icons",
+    "description": "Custom icons for Dipjo files",
+    "version": "1.0.0",
+    "publisher": "dipjo",
+    "engines": { "vscode": "^1.70.0" },
+    "categories": ["Icon Themes"],
+    "contributes": {
+        "iconThemes": [{
+            "id": "dipjo-icons",
+            "label": "Dipjo Icons",
+            "path": "./icon-theme.json"
+        }]
+    }
+}

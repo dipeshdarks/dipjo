@@ -1,0 +1,60 @@
+{
+    "scopeName": "source.dipjo",
+    "patterns": [
+        {
+            "name": "comment.line.note.dipjo",
+            "match": "^note\\s+.*$"
+        },
+        {
+            "name": "string.quoted.double.dipjo",
+            "begin": "\"",
+            "end": "\"",
+            "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.dipjo" } },
+            "endCaptures": { "0": { "name": "punctuation.definition.string.end.dipjo" } }
+        },
+        {
+            "name": "constant.numeric.dipjo",
+            "match": "\\b\\d+(\\.\\d+)?\\b"
+        },
+        {
+            "name": "constant.language.boolean.dipjo",
+            "match": "\\b(true|false)\\b"
+        },
+        {
+            "name": "keyword.control.dipjo",
+            "match": "\\b(if|otherwise|finish|repeat|while|for|every|define|function|give|back|run|return)\\b"
+        },
+        {
+            "name": "keyword.declaration.dipjo",
+            "match": "\\b(create|remember|set|as)\\b"
+        },
+        {
+            "name": "support.type.dipjo",
+            "match": "\\b(number|text|truth|list|letter)\\b"
+        },
+        {
+            "name": "keyword.operator.arithmetic.dipjo",
+            "match": "\\b(add|subtract|multiply|divide|increase|decrease|plus|minus|times|divided|by)\\b"
+        },
+        {
+            "name": "keyword.operator.comparison.dipjo",
+            "match": "\\b(is|equal|not|greater|less|than|or|and)\\b"
+        },
+        {
+            "name": "support.function.dipjo",
+            "match": "\\b(say|ask|put|remove|into|from|to|save|in|note|using)\\b"
+        },
+        {
+            "name": "entity.name.function.dipjo",
+            "match": "\\b(run\\s+function|define\\s+function)\\s+(\\w+)",
+            "captures": {
+                "1": { "name": "keyword.other.dipjo" },
+                "2": { "name": "entity.name.function.dipjo" }
+            }
+        },
+        {
+            "name": "variable.other.dipjo",
+            "match": "\\b[a-zA-Z_]\\w*\\b"
+        }
+    ]
+}

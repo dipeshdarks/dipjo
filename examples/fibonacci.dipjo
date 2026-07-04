@@ -1,0 +1,24 @@
+note Fibonacci sequence calculator.
+
+define function fibonacci using n.
+if n is equal to 0,
+give back 0.
+finish condition.
+if n is equal to 1,
+give back 1.
+finish condition.
+create number a as 0.
+create number b as 1.
+repeat from 2 to n,
+create number temp as a plus b.
+set a to b.
+set b to temp.
+finish repeat.
+give back b.
+finish function.
+
+say "Fibonacci sequence:".
+repeat from 0 to 10,
+remember result as run function fibonacci using number.
+say "Fibonacci(", number, ") =", result.
+finish repeat.

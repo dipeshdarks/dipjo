@@ -1,0 +1,81 @@
+say "Welcome to Dipjo".
+say "This is Dipjo language".
+
+create number age as 25.
+say "Age is", age.
+
+add 5 to age.
+say "Age after adding 5 is", age.
+
+subtract 3 from age.
+say "Age after subtracting 3 is", age.
+
+multiply age by 2.
+say "Age after multiplying by 2 is", age.
+
+divide age by 4.
+say "Age after dividing by 4 is", age.
+
+increase age by 10.
+say "Age after increasing by 10 is", age.
+
+decrease age by 5.
+say "Age after decreasing by 5 is", age.
+
+create text name as "Dipjo".
+say "Name is", name.
+
+create truth is_cool as true.
+say "Is Dipjo cool?", is_cool.
+
+create list fruits as "Apple", "Banana", "Orange".
+put "Mango" into fruits.
+for every item in fruits,
+say item.
+finish loop.
+
+remove "Banana" from fruits.
+say "After removing Banana:".
+for every item in fruits,
+say item.
+finish loop.
+
+define function greet using person.
+say "Hello", person.
+finish function.
+
+run function greet using "World".
+
+define function add_numbers using a, b.
+create number result as a plus b.
+give back result.
+finish function.
+
+remember sum as run function add_numbers using 3, 4.
+say "Sum is", sum.
+
+if age is greater than 18,
+say "Adult".
+otherwise,
+say "Minor".
+finish condition.
+
+if age is less than 10,
+say "Child".
+finish condition.
+
+repeat 3 times,
+say "Loop iteration".
+finish repeat.
+
+repeat from 1 to 5,
+say number.
+finish repeat.
+
+remember counter as 0.
+while counter is less than 5,
+say "Counter is", counter.
+increase counter by 1.
+finish while.
+
+say "All tests passed!".
