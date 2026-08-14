@@ -2,83 +2,41 @@
   "name": "dipjo",
   "version": "0.1.0",
   "description": "Dipjo programming language - a human-readable language with English-like syntax",
-  "publisher": "dipeshdarks",
-  "engines": {
-    "vscode": "^1.80.0",
-    "node": ">=14"
-  },
-  "categories": [
-    "Programming Languages",
-    "Themes"
-  ],
-  "activationEvents": [
-    "onLanguage:dipjo"
-  ],
-  "main": "./src/extension.js",
   "bin": {
     "dipjo": "bin/dipjo.js"
   },
   "files": [
-    "bin/",
-    "lib/",
-    "examples/*.dipjo",
-    "examples/crud-app/",
-    "syntaxes/",
-    "themes/",
-    "src/",
-    "language-configuration.json",
+    "bin/dipjo.js",
+    "lib/ast_nodes.py",
+    "lib/lexer.py",
+    "lib/parser.py",
+    "lib/interpreter.py",
+    "lib/main.py",
+    "lib/repl.py",
+    "lib/database.py",
+    "lib/http_server.py",
+    "examples/",
     "LICENSE",
     "README.md"
   ],
-  "contributes": {
-    "languages": [
-      {
-        "id": "dipjo",
-        "aliases": [
-          "Dipjo",
-          "dipjo"
-        ],
-        "extensions": [
-          ".dipjo"
-        ],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "dipjo",
-        "scopeName": "source.dipjo",
-        "path": "./syntaxes/dipjo.tmLanguage.json"
-      }
-    ],
-    "themes": [
-      {
-        "label": "Dipjo Jellyfish",
-        "uiTheme": "vs-dark",
-        "path": "./themes/dipjo-jellyfish-color-theme.json"
-      }
-    ]
-  },
   "scripts": {
-    "test": "node --test tests/cli.test.js",
-    "lint": "node bin/dipjo.js --help",
-    "package": "vsce package"
+    "test": "node --test tests/cli.test.js"
   },
   "keywords": [
     "programming-language",
     "interpreter",
     "dipjo",
     "cli",
-    "human-readable",
-    "vscode",
-    "theme",
-    "syntax-highlighting"
+    "human-readable"
   ],
   "author": "Dipesh",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/dipeshdarks/dipjo"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "os": [
     "win32",

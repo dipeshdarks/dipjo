@@ -1,0 +1,15 @@
+note Test HTTP server.
+remember server as http_server(3001).
+
+define function handle_test.
+    remember body as request("body").
+    remember method as request("method").
+    remember path as request("path").
+    give back {"status": 200, "body": {"method": method, "path": path, "message": "Hello from Dipjo!"}}.
+finish function.
+
+server.get("/", "handle_test").
+server.post("/test", "handle_test").
+
+say "Test server starting on port 3001...".
+server.start().

@@ -1,0 +1,22 @@
+# Development
+.vscode/
+.qodo/
+node_modules/
+package-lock.json
+tests/
+
+# Root-level files not needed for npm
+*.py
+!lib/*.py
+*.bat
+*.ico
+*.tgz
+.git/
+.gitignore
+website/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo

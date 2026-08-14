@@ -1,0 +1,25 @@
+note Test new built-in functions.
+say "Testing new built-in functions:".
+
+remember code as random_code(6).
+say "Random code: ", code.
+
+remember json as json_stringify({"key": "value", "num": 42}).
+say "JSON: ", json.
+
+remember parsed as json_parse(json).
+say "Parsed key: ", parsed.key.
+
+remember has_http as string_starts_with("https://example.com", "https://").
+say "Has HTTPS: ", has_http.
+
+remember contains as string_contains("hello world", "world").
+say "Contains world: ", contains.
+
+remember split as string_split("a,b,c", ",").
+say "Split length: ", len(split).
+
+remember env_val as env("DIPJO_CWD").
+say "CWD: ", env_val.
+
+say "All tests passed!".

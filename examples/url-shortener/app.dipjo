@@ -1,0 +1,182 @@
+note Dipjo Short - URL Shortener Application.
+note A fully working URL shortener built entirely with Dipjo.
+note Uses Dipjo's HTTP server, SQLite database, and JSON APIs.
+
+note === DATABASE SETUP ===
+note Initialize the URL database with SQLite.
+remember urls as database("urls").
+
+note === HELPER FUNCTIONS ===
+
+note Generate a random short code.
+define function generate_code using length.
+    remember charset as "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".
+    remember code as "".
+    repeat length times,
+        remember idx as num(str(random_code(1, "0123456789"))).
+        increase idx by 1.
+        if idx is greater than 61,
+            set idx to 0.
+        finish condition.
+        remember ch as string_split(charset, "")[idx].
+        set code to code plus ch.
+    finish repeat.
+    give back code.
+finish function.
+
+note Validate if a string looks like a URL.
+define function is_valid_url using url.
+    remember has_http as string_starts_with(url, "http://").
+    remember has_https as string_starts_with(url, "https://").
+    if has_http or has_https,
+        give back true.
+    finish condition.
+    give back false.
+finish function.
+
+note Find a URL record by short code.
+define function find_url_by_code using code.
+    remember results as urls.find({"code": code}).
+    if len(results) is greater than 0,
+        give back results[0].
+    finish condition.
+    give back null.
+finish function.
+
+note Create a new short URL.
+define function create_short_url using original_url.
+    remember code as generate_code(6).
+    while find_url_by_code(code) is not equal to null,
+        set code to generate_code(6).
+    finish while.
+    remember record as urls.create({"code": code, "original_url": original_url, "created_at": now(), "clicks": 0}).
+    give back record.
+finish function.
+
+note Increment click count for a URL.
+define function increment_clicks using code.
+    remember existing as find_url_by_code(code).
+    if existing is not equal to null,
+        remember new_clicks as existing.clicks plus 1.
+        urls.update({"code": code}, {"clicks": new_clicks}).
+    finish condition.
+finish function.
+
+note === ROUTE HANDLERS ===
+
+note Homepage - serves the main page.
+define function handle_home.
+    remember cwd as env("DIPJO_CWD").
+    remember html as file_read(cwd plus "/public/index.html").
+    give back {"status": 200, "body": html, "content_type": "text/html"}.
+finish function.
+
+note Dashboard - shows all URLs.
+define function handle_dashboard.
+    remember cwd as env("DIPJO_CWD").
+    remember html as file_read(cwd plus "/public/dashboard.html").
+    give back {"status": 200, "body": html, "content_type": "text/html"}.
+finish function.
+
+note Shorten a URL - POST /api/shorten.
+define function handle_shorten.
+    remember body as request("body").
+    if body is equal to "",
+        give back {"status": 400, "body": {"success": false, "error": "No data provided"}}.
+    finish condition.
+    remember data as json_parse(body).
+    if is_valid_url(data.url) is equal to false,
+        give back {"status": 400, "body": {"success": false, "error": "Invalid URL. Must start with http:// or https://"}}.
+    finish condition.
+    remember record as create_short_url(data.url).
+    remember code as record.code.
+    remember short_url as "http://localhost:3000/" plus code.
+    remember response as {"success": true, "code": code, "short_url": short_url, "original_url": data.url}.
+    give back {"status": 201, "body": response}.
+finish function.
+
+note List all URLs - GET /api/urls.
+define function handle_list_urls.
+    remember all_urls as urls.find().
+    remember url_list as [].
+    for every record in all_urls,
+        remember item as {"code": record.code, "original_url": record.original_url, "clicks": record.clicks, "created_at": record.created_at}.
+        add item to url_list.
+    finish loop.
+    give back {"status": 200, "body": {"urls": url_list}}.
+finish function.
+
+note Get URL info - GET /api/urls/:code.
+define function handle_get_url.
+    remember params as request("params").
+    remember code as params.code.
+    remember record as find_url_by_code(code).
+    if record is equal to null,
+        give back {"status": 404, "body": {"error": "Short URL not found"}}.
+    finish condition.
+    remember short_url as "http://localhost:3000/" plus code.
+    remember response as {"code": record.code, "original_url": record.original_url, "short_url": short_url, "clicks": record.clicks, "created_at": record.created_at}.
+    give back {"status": 200, "body": response}.
+finish function.
+
+note Delete a URL - DELETE /api/urls/:code.
+define function handle_delete_url.
+    remember params as request("params").
+    remember code as params.code.
+    remember record as find_url_by_code(code).
+    if record is equal to null,
+        give back {"status": 404, "body": {"error": "Short URL not found"}}.
+    finish condition.
+    urls.delete({"code": code}).
+    give back {"status": 200, "body": {"success": true}}.
+finish function.
+
+note Redirect - GET /:code.
+define function handle_redirect.
+    remember params as request("params").
+    remember code as params.code.
+    remember record as find_url_by_code(code).
+    if record is equal to null,
+        remember cwd as env("DIPJO_CWD").
+        remember html as file_read(cwd plus "/public/index.html").
+        give back {"status": 404, "body": html, "content_type": "text/html"}.
+    finish condition.
+    increment_clicks(code).
+    give back {"status": 302, "headers": {"Location": record.original_url}, "body": ""}.
+finish function.
+
+note === SERVER SETUP ===
+
+note Get port from CLI args or default to 3000.
+remember port as 3000.
+remember arg_port as args_get(0).
+if arg_port is not equal to null,
+    set port to num(arg_port).
+finish condition.
+
+note Create HTTP server.
+remember server as http_server(port).
+
+note Register routes.
+server.get("/", "handle_home").
+server.get("/dashboard", "handle_dashboard").
+server.post("/api/shorten", "handle_shorten").
+server.get("/api/urls", "handle_list_urls").
+server.get("/api/urls/:code", "handle_get_url").
+server.delete("/api/urls/:code", "handle_delete_url").
+server.get("/:code", "handle_redirect").
+
+note Set static files directory.
+remember cwd as env("DIPJO_CWD").
+server.set_static(cwd plus "/public").
+
+note Start the server.
+say "".
+say "Dipjo Short".
+say "".
+say "Server running at:".
+say "http://localhost:", port.
+say "".
+say "Press Ctrl+C to stop.".
+say "".
+server.start().

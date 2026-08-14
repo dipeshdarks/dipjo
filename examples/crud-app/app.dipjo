@@ -1,0 +1,114 @@
+note Dipjo Contact Manager - CRUD Application.
+
+import "contacts.dipjo".
+
+say "".
+say "=== Dipjo Contact Manager ===".
+say "".
+
+remember running as true.
+
+while running is true,
+    say "----------------------------------------".
+    say "1. Create Contact".
+    say "2. View All Contacts".
+    say "3. Search Contact".
+    say "4. Edit Contact".
+    say "5. Delete Contact".
+    say "6. Exit".
+    say "----------------------------------------".
+    say "Choose option:".
+    remember option as input.
+
+    if option is equal to "1",
+        say "".
+        say "--- Create Contact ---".
+        say "Name:".
+        remember name as input.
+        say "Email:".
+        remember email as input.
+        say "Phone:".
+        remember phone as input.
+        say "Company:".
+        remember company as input.
+        remember record as run function create_contact using name, email, phone, company.
+        say "".
+        say "Contact created!".
+        say record.
+        say "".
+    finish condition.
+
+    if option is equal to "2",
+        say "".
+        say "--- All Contacts ---".
+        remember all as run function list_contacts.
+        if all is equal to [],
+            say "No contacts found.".
+        otherwise,
+            for every contact in all,
+                say "".
+                say "ID: ", contact.
+            finish loop.
+        finish condition.
+        say "".
+    finish condition.
+
+    if option is equal to "3",
+        say "".
+        say "--- Search Contact ---".
+        say "Search by (name/email):".
+        remember field as input.
+        say "Search value:".
+        remember value as input.
+        remember results as run function search_contact using field, value.
+        if results is equal to [],
+            say "No contacts found.".
+        otherwise,
+            for every contact in results,
+                say "".
+                say "ID: ", contact.
+            finish loop.
+        finish condition.
+        say "".
+    finish condition.
+
+    if option is equal to "4",
+        say "".
+        say "--- Edit Contact ---".
+        say "Contact ID to edit:".
+        remember edit_id as input.
+        say "New name:".
+        remember new_name as input.
+        say "New email:".
+        remember new_email as input.
+        say "New phone:".
+        remember new_phone as input.
+        say "New company:".
+        remember new_company as input.
+        remember result as run function update_contact using edit_id, {"name": new_name, "email": new_email, "phone": new_phone, "company": new_company}.
+        if result is equal to null,
+            say "Contact not found.".
+        otherwise,
+            say "Contact updated!".
+            say result.
+        finish condition.
+        say "".
+    finish condition.
+
+    if option is equal to "5",
+        say "".
+        say "--- Delete Contact ---".
+        say "Contact ID to delete:".
+        remember del_id as input.
+        remember result as run function delete_contact using del_id.
+        say "Contact deleted.".
+        say result.
+        say "".
+    finish condition.
+
+    if option is equal to "6",
+        say "Goodbye!".
+        remember running as false.
+    finish condition.
+
+finish while.

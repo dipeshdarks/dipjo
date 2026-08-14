@@ -1,0 +1,33 @@
+note Contact database operations.
+
+contacts = database("contacts").
+
+define function create_contact using name, email, phone, company.
+remember record as contacts.create({"name": name, "email": email, "phone": phone, "company": company, "created_at": now()}).
+give back record.
+finish function.
+
+define function list_contacts.
+remember all as contacts.find().
+give back all.
+finish function.
+
+define function search_contact using field, value.
+remember results as contacts.find({field: value}).
+give back results.
+finish function.
+
+define function update_contact using id, changes.
+remember result as contacts.update({"id": id}, changes).
+give back result.
+finish function.
+
+define function delete_contact using id.
+remember result as contacts.delete({"id": id}).
+give back result.
+finish function.
+
+define function count_contacts.
+remember c as contacts.count().
+give back c.
+finish function.
