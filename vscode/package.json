@@ -1,0 +1,63 @@
+{
+  "name": "dipjo",
+  "displayName": "Dipjo",
+  "description": "Dipjo programming language support with syntax highlighting and Jellyfish theme",
+  "version": "0.1.0",
+  "publisher": "dipeshdarks",
+  "icon": "dipjo-logo-128.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Themes"
+  ],
+  "activationEvents": [
+    "onLanguage:dipjo"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "dipjo",
+        "aliases": [
+          "Dipjo",
+          "dipjo"
+        ],
+        "extensions": [
+          ".dipjo"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "dipjo",
+        "scopeName": "source.dipjo",
+        "path": "./syntaxes/dipjo.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Dipjo Jellyfish",
+        "uiTheme": "vs-dark",
+        "path": "./themes/dipjo-jellyfish-color-theme.json"
+      }
+    ]
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "keywords": [
+    "dipjo",
+    "programming-language",
+    "syntax-highlighting",
+    "theme"
+  ],
+  "author": "Dipesh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dipeshdarks/dipjo"
+  }
+}
