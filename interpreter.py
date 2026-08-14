@@ -1,10 +1,14 @@
 from dataclasses import dataclass, field
+import os
+import sys
+from datetime import datetime
 from ast_nodes import (
     Program, Literal, VariableReference, VariableDeclaration, Assignment,
     PrintStatement, InputStatement, BinaryOperation, UnaryOperation,
     IfStatement, RepeatCountStatement, RepeatRangeStatement, WhileStatement,
     ForEachStatement, FunctionDefinition, FunctionCall, ReturnStatement,
     ListDeclaration, ListAppend, ListRemove, NoteStatement,
+    DictLiteral, MemberAccess, MethodCall, ImportStatement,
 )
 
 
@@ -16,6 +20,16 @@ class ReturnException(Exception):
 class RuntimeError(Exception):
     def __init__(self, message):
         super().__init__(f"Runtime error: {message}")
+
+
+class BuiltinFunction:
+    def __init__(self, name, func):
+        self.name = name
+        self.func = func
+        self.params = []
+
+    def __call__(self, *args):
+        return self.func(args)
 
 
 @dataclass
@@ -51,6 +65,51 @@ class Interpreter:
         self.global_scope = Scope()
         self.current_scope = self.global_scope
         self.functions = {}
+        self._register_builtins()
+
+    def _register_builtins(self):
+        self.functions["database"] = BuiltinFunction("database", self._builtin_database)
+        self.functions["now"] = BuiltinFunction("now", self._builtin_now)
+        self.functions["len"] = BuiltinFunction("len", self._builtin_len)
+        self.functions["str"] = BuiltinFunction("str", self._builtin_str)
+        self.functions["num"] = BuiltinFunction("num", self._builtin_num)
+        self.functions["input"] = BuiltinFunction("input", self._builtin_input)
+
+    def _builtin_database(self, args):
+        if len(args) != 1:
+            raise RuntimeError("database() expects exactly 1 argument")
+        from database import DatabaseCollection
+        return DatabaseCollection(args[0])
+
+    def _builtin_now(self, args):
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def _builtin_len(self, args):
+        if len(args) != 1:
+            raise RuntimeError("len() expects exactly 1 argument")
+        return len(args[0])
+
+    def _builtin_str(self, args):
+        if len(args) != 1:
+            raise RuntimeError("str() expects exactly 1 argument")
+        return str(args[0])
+
+    def _builtin_num(self, args):
+        if len(args) != 1:
+            raise RuntimeError("num() expects exactly 1 argument")
+        val = args[0]
+        if isinstance(val, str):
+            if "." in val:
+                return float(val)
+            return int(val)
+        return val
+
+    def _builtin_input(self, args):
+        if len(args) == 1:
+            value = input(f"{args[0]}: ")
+        else:
+            value = input()
+        return value
 
     def run(self, program: Program):
         for statement in program.statements:
@@ -74,6 +133,13 @@ class Interpreter:
                     values.append("true" if val else "false")
                 elif isinstance(val, float) and val == int(val):
                     values.append(str(int(val)))
+                elif isinstance(val, dict):
+                    parts = []
+                    for k, v2 in val.items():
+                        parts.append(f"{k}: {v2}")
+                    values.append("{" + ", ".join(parts) + "}")
+                elif isinstance(val, list):
+                    values.append(str(val))
                 else:
                     values.append(str(val))
             print(" ".join(values))
@@ -115,6 +181,8 @@ class Interpreter:
             self.functions[node.name] = node
         elif isinstance(node, FunctionCall):
             self.call_function(node.name, node.arguments)
+        elif isinstance(node, MethodCall):
+            self.evaluate(node)
         elif isinstance(node, ReturnStatement):
             value = self.evaluate(node.value)
             raise ReturnException(value)
@@ -132,11 +200,15 @@ class Interpreter:
                 lst.remove(element)
         elif isinstance(node, NoteStatement):
             pass  # comments are ignored
+        elif isinstance(node, ImportStatement):
+            self.execute_import(node)
 
     def evaluate(self, node):
         if isinstance(node, Literal):
             return node.value
         elif isinstance(node, VariableReference):
+            if node.name == "input":
+                return self.call_function("input", [])
             return self.current_scope.get(node.name)
         elif isinstance(node, BinaryOperation):
             left = self.evaluate(node.left)
@@ -148,7 +220,41 @@ class Interpreter:
                 return not operand
         elif isinstance(node, FunctionCall):
             return self.call_function(node.name, node.arguments)
+        elif isinstance(node, DictLiteral):
+            result = {}
+            for key, value in zip(node.keys, node.values):
+                result[key] = self.evaluate(value)
+            return result
+        elif isinstance(node, MemberAccess):
+            obj = self.evaluate(node.object)
+            if isinstance(obj, dict):
+                if node.property in obj:
+                    return obj[node.property]
+                raise RuntimeError(f"Key '{node.property}' not found in dictionary")
+            return getattr(obj, node.property)
+        elif isinstance(node, MethodCall):
+            obj = self.evaluate(node.object)
+            args = [self.evaluate(arg) for arg in node.arguments]
+            method = getattr(obj, node.method)
+            return method(*args)
         raise RuntimeError(f"Cannot evaluate {type(node).__name__}")
+
+    def execute_import(self, node):
+        filepath = node.filepath
+        if not os.path.isabs(filepath):
+            caller_dir = os.environ.get("DIPJO_CWD", os.getcwd())
+            filepath = os.path.join(caller_dir, filepath)
+        if not os.path.exists(filepath):
+            raise RuntimeError(f"Cannot import '{node.filepath}': file not found")
+        with open(filepath, "r", encoding="utf-8") as f:
+            source = f.read()
+        from lexer import Lexer
+        from parser import Parser
+        lexer = Lexer(source)
+        tokens = lexer.tokenize()
+        parser = Parser(tokens)
+        program = parser.parse()
+        self.run(program)
 
     def apply_binary_op(self, op, left, right):
         if op == "plus":
@@ -187,9 +293,13 @@ class Interpreter:
         if name not in self.functions:
             raise RuntimeError(f"Function '{name}' is not defined")
 
-        func_def = self.functions[name]
+        func = self.functions[name]
         args = [self.evaluate(arg) for arg in arguments]
 
+        if isinstance(func, BuiltinFunction):
+            return func(*args)
+
+        func_def = func
         if len(args) != len(func_def.params):
             raise RuntimeError(
                 f"Function '{name}' expects {len(func_def.params)} arguments but got {len(args)}"

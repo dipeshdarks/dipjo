@@ -1,0 +1,169 @@
+note Dipjo Jellyfish Theme - Example File.
+note This file showcases all syntax elements with the Jellyfish color theme.
+
+note === Variables and Types ===
+
+create number age as 25.
+create text name as "Dipjo".
+create truth is_cool as true.
+remember counter as 0.
+set age to 26.
+
+note === Output ===
+
+say "Hello, World!".
+say "Hello", name.
+say "Age is", age.
+
+note === Input ===
+
+ask "Enter your name" and save in name.
+
+note === Arithmetic ===
+
+add 5 to age.
+subtract 3 from age.
+multiply age by 2.
+divide age by 4.
+increase counter by 1.
+decrease counter by 1.
+
+note === Conditionals ===
+
+if age is greater than 18,
+say "Adult".
+otherwise,
+say "Minor".
+finish condition.
+
+if name is equal to "Dipjo",
+say "Creator detected".
+finish condition.
+
+if counter is not equal to 0,
+say "Counter is not zero".
+finish condition.
+
+if age is greater than or equal to 18,
+say "Adult".
+finish condition.
+
+if age is less than or equal to 100,
+say "Under 100".
+finish condition.
+
+if age is not greater than 100,
+say "Valid age".
+finish condition.
+
+note === Loops ===
+
+repeat 5 times,
+say "Hello".
+finish repeat.
+
+repeat from 1 to 10,
+say number.
+finish repeat.
+
+while counter is less than 10,
+say "Counter is", counter.
+increase counter by 1.
+finish while.
+
+note === Lists ===
+
+create list fruits as "Apple", "Banana", "Orange".
+put "Mango" into fruits.
+remove "Banana" from fruits.
+
+for every item in fruits,
+say item.
+finish loop.
+
+note === Dictionaries ===
+
+remember user as {"name": "Dipesh", "age": 21}.
+say user.name.
+say user.age.
+
+note === Functions ===
+
+define function greet using person.
+say "Hello", person.
+finish function.
+
+run function greet using "World".
+
+define function add_numbers using a, b.
+create number result as a plus b.
+give back result.
+finish function.
+
+remember sum as run function add_numbers using 3, 4.
+say "Sum is", sum.
+
+note === Built-in Functions ===
+
+remember timestamp as now().
+remember length as len(fruits).
+remember text_value as str(42).
+remember number_value as num("42").
+
+note === Database ===
+
+users = database("users").
+
+users.create({"name": "Dipesh", "email": "dipesh@example.com", "age": 21}).
+remember all as users.find().
+remember results as users.find({"age": 21}).
+users.update({"id": 1}, {"name": "Dipesh Darks"}).
+users.delete({"id": 1}).
+remember c as users.count().
+remember ex as users.exists({"email": "dipesh@example.com"}).
+users.clear().
+
+note === Imports ===
+
+import "contacts.dipjo".
+
+note === Comparisons ===
+
+if age is equal to 25,
+say "Exactly 25".
+finish condition.
+
+if age is not equal to 100,
+say "Not 100".
+finish condition.
+
+if age is greater than 20,
+say "Over 20".
+finish condition.
+
+if age is less than 30,
+say "Under 30".
+finish condition.
+
+note === Logical Operators ===
+
+if age is greater than 18 and age is less than 65,
+say "Working age".
+finish condition.
+
+if age is less than 18 or age is greater than 65,
+say "Not working age".
+finish condition.
+
+if not is_cool,
+say "Dipjo is cool".
+finish condition.
+
+note === Arithmetic in Expressions ===
+
+create number x as 10.
+create number y as 3.
+say "Sum is", x plus y.
+say "Difference is", x minus y.
+say "Product is", x times y.
+say "Quotient is", x divided by y.
