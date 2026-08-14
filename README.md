@@ -104,10 +104,73 @@ Type Dipjo code directly and see results instantly.
 
 | Command | Description |
 |---------|-------------|
-| `dipjo <file.dipjo>` | Run a Dipjo source file |
+| `dipjo new <name>` | Create a new Dipjo project |
+| `dipjo init` | Initialize dipjo.json in current directory |
+| `dipjo run <file.dipjo>` | Run a Dipjo source file |
 | `dipjo repl` | Start an interactive REPL |
-| `dipjo --version` | Show version number |
-| `dipjo --help` | Show help message |
+| `dipjo build` | Build and validate project files |
+| `dipjo test` | Run Dipjo tests |
+| `dipjo check <file>` | Check syntax without running |
+| `dipjo format [file\|dir]` | Format Dipjo code |
+| `dipjo lint [file\|dir]` | Lint Dipjo code |
+| `dipjo add <package>` | Add a dependency |
+| `dipjo remove <package>` | Remove a dependency |
+| `dipjo install` | Install dependencies |
+| `dipjo update` | Update dependencies |
+| `dipjo list` | List dependencies |
+| `dipjo clean` | Remove generated files (dist/, build/, cache/) |
+| `dipjo docs` | Generate documentation |
+| `dipjo serve` | Start HTTP server |
+| `dipjo doctor` | Diagnose installation |
+| `dipjo version` | Show version number |
+| `dipjo help` | Show help message |
+
+### CLI Usage Examples
+
+```bash
+# Create a new project
+dipjo new my-app
+cd my-app
+
+# Initialize a project
+dipjo init
+
+# Run a file
+dipjo run src/main.dipjo
+dipjo hello.dipjo
+
+# Start REPL
+dipjo repl
+
+# Check syntax
+dipjo check src/main.dipjo
+
+# Format code
+dipjo format src/
+
+# Lint code
+dipjo lint src/
+
+# Build and validate
+dipjo build
+
+# Run tests
+dipjo test
+
+# Manage dependencies
+dipjo add mypackage
+dipjo remove mypackage
+dipjo list
+
+# Clean generated files
+dipjo clean
+
+# Generate documentation
+dipjo docs
+
+# Diagnose installation
+dipjo doctor
+```
 
 ---
 

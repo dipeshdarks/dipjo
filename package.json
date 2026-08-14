@@ -15,6 +15,11 @@
     "lib/repl.py",
     "lib/database.py",
     "lib/http_server.py",
+    "lib/check.py",
+    "lib/format.py",
+    "lib/lint.py",
+    "lib/docs.py",
+    "lib/doctor.py",
     "examples/",
     "LICENSE",
     "README.md"
@@ -33,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dipeshdarks/dipjo"
+    "url": "git+https://github.com/dipeshdarks/dipjo.git"
   },
   "engines": {
     "node": ">=14"
