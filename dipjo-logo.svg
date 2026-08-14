@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Black background -->
+  <rect width="512" height="512" fill="#000000"/>
+
+  <!-- Yellow outer frame -->
+  <rect x="10" y="10" width="492" height="492" rx="20" ry="20"
+        fill="none" stroke="#F5A623" stroke-width="30"/>
+
+  <!-- ">" chevron - upper left -->
+  <path d="M 110,140 L 185,215 L 110,290"
+        fill="none" stroke="#F5A623" stroke-width="34"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- "_" underscore - bottom left -->
+  <rect x="85" y="385" width="120" height="30" rx="4" fill="#F5A623"/>
+
+  <!-- Stylized "D" - bold filled shape with curved right side -->
+  <path d="
+    M 230,95
+    L 345,95
+    C 435,95 465,195 465,256
+    C 465,317 435,417 345,417
+    L 230,417
+    L 230,347
+    L 330,347
+    C 385,347 400,305 400,256
+    C 400,207 385,165 330,165
+    L 230,165
+    Z
+  " fill="#F5A623"/>
+
+  <!-- "{" curly brace cutout - black strokes on D's left edge -->
+  <!-- Top arc of brace -->
+  <path d="M 230,165 C 198,165 192,198 215,218"
+        fill="none" stroke="#000000" stroke-width="30"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Middle arc of brace -->
+  <path d="M 215,218 C 188,240 188,272 215,294"
+        fill="none" stroke="#000000" stroke-width="30"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bottom arc of brace -->
+  <path d="M 215,294 C 192,314 198,347 230,347"
+        fill="none" stroke="#000000" stroke-width="30"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Brace tick marks -->
+  <line x1="215" y1="218" x2="194" y2="218" stroke="#000000" stroke-width="22" stroke-linecap="round"/>
+  <line x1="203" y1="256" x2="180" y2="256" stroke="#000000" stroke-width="22" stroke-linecap="round"/>
+  <line x1="215" y1="294" x2="194" y2="294" stroke="#000000" stroke-width="22" stroke-linecap="round"/>
+</svg>

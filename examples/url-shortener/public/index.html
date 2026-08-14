@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dipjo Short</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Dipjo Short</h1>
+        <p class="subtitle">Shorten your URL.</p>
+        
+        <div class="input-group">
+            <input type="text" id="url-input" placeholder="https://example.com/very/long/url">
+            <button onclick="shortenUrl()">SHORTEN</button>
+        </div>
+        
+        <div id="result" class="result hidden">
+            <p>Your short URL:</p>
+            <div class="short-url-group">
+                <input type="text" id="short-url" readonly>
+                <button onclick="copyUrl()">Copy</button>
+            </div>
+        </div>
+        
+        <div id="error" class="error hidden"></div>
+        
+        <div class="links">
+            <a href="/dashboard">View Dashboard</a>
+        </div>
+    </div>
+    
+    <script src="/app.js"></script>
+</body>
+</html>

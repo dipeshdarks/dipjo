@@ -1,6 +1,10 @@
 # Dipjo
 
 <p align="center">
+  <img src="dipjo-logo-256.png" alt="Dipjo Logo" width="128" height="128">
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Version-0.1.0-00f5d4?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/License-MIT-00f5d4?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
