@@ -1,10 +1,32 @@
 {
-  "name": "dipjo",
+  "name": "@dipdarks_plays/dipjo",
   "version": "0.1.0",
   "description": "Dipjo programming language - a human-readable language with English-like syntax",
-  "icon": "dipjo-logo-256.png",
+  "keywords": [
+    "programming-language",
+    "interpreter",
+    "dipjo",
+    "cli",
+    "human-readable"
+  ],
+  "homepage": "https://github.com/dipeshdarks/dipjo#readme",
+  "bugs": {
+    "url": "https://github.com/dipeshdarks/dipjo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dipeshdarks/dipjo.git"
+  },
+  "license": "MIT",
+  "author": "Dipesh",
+  "type": "commonjs",
   "bin": {
     "dipjo": "bin/dipjo.js"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "tests"
   },
   "files": [
     "bin/dipjo.js",
@@ -29,25 +51,16 @@
   "scripts": {
     "test": "node --test tests/cli.test.js"
   },
-  "keywords": [
-    "programming-language",
-    "interpreter",
-    "dipjo",
-    "cli",
-    "human-readable"
-  ],
-  "author": "Dipesh",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dipeshdarks/dipjo.git"
-  },
   "engines": {
-    "node": ">=14"
+    "node": ">=22"
   },
   "os": [
     "win32",
     "darwin",
     "linux"
-  ]
+  ],
+  "icon": "dipjo-logo-256.png",
+  "dependencies": {
+    "chalk": "^6.0.0"
+  }
 }

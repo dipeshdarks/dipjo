@@ -1,5 +1,6 @@
 # Development
 .vscode/
+.vscode/**/*
 .qodo/
 node_modules/
 package-lock.json
@@ -20,3 +21,41 @@ __pycache__/
 **/__pycache__/
 *.pyc
 *.pyo
+
+# VS Code extension & packaging
+src/
+syntaxes/
+themes/
+vscode/
+
+# Verification & utility
+final-verify/
+create_icon.py
+fix_all.py
+fix_assoc.py
+dipjo_ide.py
+install.py
+index.html
+CHANGELOG.md
+
+# Root-level test/example files
+test_*.dipjo
+example.dipjo
+test_database.dipjo
+test_http.dipjo
+test_newBuiltins.dipjo
+
+# Database files
+.dipjo/
+**/.dipjo/
+
+# Logo variants (keep only dipjo-logo-256.png)
+dipjo-logo-16.png
+dipjo-logo-32.png
+dipjo-logo-48.png
+dipjo-logo-64.png
+dipjo-logo-128.png
+dipjo-logo-512.png
+dipjo-logo.svg
+dipjo.ico
+favicon.ico

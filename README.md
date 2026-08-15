@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/Version-0.1.0-00f5d4?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/License-MIT-00f5d4?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Node.js-14+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+  <img src="https://img.shields.io/badge/Node.js-22+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
 </p>
 
 <h2 align="center">A human-readable programming language with English-like syntax.</h2>
@@ -50,12 +50,12 @@ run function greet using "Dipjo".
 ### Prerequisites
 
 - **Python 3.8+** — [Download Python](https://www.python.org/downloads/)
-- **Node.js 14+** — [Download Node.js](https://nodejs.org/)
+- **Node.js 22+** — [Download Node.js](https://nodejs.org/)
 
 ### Install from npm (Recommended)
 
 ```bash
-npm install -g dipjo
+npm install -g @dipdarks_plays/dipjo
 ```
 
 ### Install from Source
@@ -89,7 +89,7 @@ say "Hello, World!".
 ### 2. Run It
 
 ```bash
-dipjo hello.dipjo
+dipjo run hello.dipjo
 ```
 
 Output: `Hello, World!`
@@ -141,7 +141,7 @@ dipjo init
 
 # Run a file
 dipjo run src/main.dipjo
-dipjo hello.dipjo
+dipjo run hello.dipjo
 
 # Start REPL
 dipjo repl
