@@ -3,9 +3,11 @@ Dipjo HTTP Server - Provides HTTP server capabilities for Dipjo programs.
 Uses Python's built-in http.server with threading for request handling.
 """
 
+import os
 import json
 import threading
 import re
+import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
@@ -90,7 +92,10 @@ class DipjoHTTPServer:
         callback_name, params = self._match_route(method, path)
 
         if callback_name is None:
-            # Try static files
+            search_match = re.match(r"^/search/([a-zA-Z0-9_-]+)$", path)
+            if search_match and method == "GET":
+                self._handle_search(search_match.group(1), query, handler)
+                return
             if self.static_dir and method == "GET":
                 if self._serve_static(handler, path):
                     return
@@ -134,8 +139,28 @@ class DipjoHTTPServer:
         except Exception as e:
             self._send_json(handler, 500, {"error": str(e)})
 
+    def _handle_search(self, index_name, query_params, handler):
+        import sys
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        try:
+            from search import SearchIndex
+            q = query_params.get("q", [""])[0]
+            limit = int(query_params.get("limit", ["20"])[0])
+            offset = int(query_params.get("offset", ["0"])[0])
+            if not q:
+                self._send_json(handler, 400, {"error": "Missing 'q' parameter"})
+                return
+            start = time.time()
+            index = SearchIndex(index_name)
+            results = index.search(q, {"limit": limit, "offset": offset})
+            index.close()
+            elapsed_ms = round((time.time() - start) * 1000, 2)
+            results["time_ms"] = elapsed_ms
+            self._send_json(handler, 200, results)
+        except Exception as e:
+            self._send_json(handler, 500, {"error": str(e)})
+
     def _serve_static(self, handler, path):
-        import os
         if path == "/":
             path = "/index.html"
         filepath = os.path.join(self.static_dir, path.lstrip("/"))

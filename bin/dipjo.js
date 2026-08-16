@@ -427,6 +427,68 @@ function cmdServe() {
   }
 }
 
+function cmdSearch(args) {
+  if (args.length === 0) {
+    console.error("Usage: dipjo search <subcommand> [options]");
+    console.error("Subcommands:");
+    console.error("  create <name>           Create a new search index");
+    console.error("  add <name> <file.json>  Add document from JSON file");
+    console.error("  add <name> <key> <val>  Add a simple document");
+    console.error("  query <name> <query>    Search an index");
+    console.error("  stats <name>            Show index statistics");
+    console.error("  rebuild <name>          Rebuild an index");
+    console.error("  delete <name>           Delete an index");
+    console.error("  list                    List all search indexes");
+    process.exit(1);
+  }
+  const sub = args[0].toLowerCase();
+  const subArgs = args.slice(1);
+
+  if (sub === "list") {
+    runPythonScript("search_cli.py", ["list"]);
+  } else if (sub === "create") {
+    if (subArgs.length < 1) {
+      console.error("Usage: dipjo search create <name>");
+      process.exit(1);
+    }
+    runPythonScript("search_cli.py", ["create", subArgs[0]]);
+  } else if (sub === "add") {
+    if (subArgs.length < 2) {
+      console.error("Usage: dipjo search add <name> <file.json>");
+      console.error("       dipjo search add <name> <key> <value> ...");
+      process.exit(1);
+    }
+    runPythonScript("search_cli.py", ["add", ...subArgs]);
+  } else if (sub === "query") {
+    if (subArgs.length < 2) {
+      console.error("Usage: dipjo search query <name> <query>");
+      process.exit(1);
+    }
+    runPythonScript("search_cli.py", ["query", subArgs[0], subArgs.slice(1).join(" ")]);
+  } else if (sub === "stats") {
+    if (subArgs.length < 1) {
+      console.error("Usage: dipjo search stats <name>");
+      process.exit(1);
+    }
+    runPythonScript("search_cli.py", ["stats", subArgs[0]]);
+  } else if (sub === "rebuild") {
+    if (subArgs.length < 1) {
+      console.error("Usage: dipjo search rebuild <name>");
+      process.exit(1);
+    }
+    runPythonScript("search_cli.py", ["rebuild", subArgs[0]]);
+  } else if (sub === "delete") {
+    if (subArgs.length < 1) {
+      console.error("Usage: dipjo search delete <name>");
+      process.exit(1);
+    }
+    runPythonScript("search_cli.py", ["delete", subArgs[0]]);
+  } else {
+    console.error(`Unknown search subcommand: ${sub}`);
+    process.exit(1);
+  }
+}
+
 function cmdDoctor() {
   runPythonScript("doctor.py", []);
 }
@@ -460,6 +522,7 @@ Commands:
   clean               Remove generated files (dist/, build/, cache/)
   docs                Generate documentation
   serve               Start HTTP server
+  search              DipjoSearch commands (create, query, stats, ...)
   doctor              Diagnose installation
   version             Show version number
   help                Show this help message
@@ -541,6 +604,9 @@ function main() {
       break;
     case "serve":
       cmdServe();
+      break;
+    case "search":
+      cmdSearch(cmdArgs);
       break;
     case "doctor":
       cmdDoctor();

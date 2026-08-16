@@ -1,5 +1,5 @@
 {
-  "name": "@dipdarks_plays/dipjo",
+  "name": "@dipeshdarks/dipjo",
   "version": "0.1.0",
   "description": "Dipjo programming language - a human-readable language with English-like syntax",
   "keywords": [
@@ -43,6 +43,10 @@
     "lib/lint.py",
     "lib/docs.py",
     "lib/doctor.py",
+    "lib/search.py",
+    "lib/search_tokenizer.py",
+    "lib/search_storage.py",
+    "lib/search_cli.py",
     "examples/",
     "dipjo-logo-256.png",
     "LICENSE",

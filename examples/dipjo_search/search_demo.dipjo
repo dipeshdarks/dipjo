@@ -1,0 +1,35 @@
+note DipjoSearch Demo - Full-text search engine for Dipjo.
+
+note Step 1: Create a search index.
+remember articles as search_index("articles").
+
+note Step 2: Add documents.
+articles.add({"id": "1", "title": "Dipjo Programming Language", "content": "Dipjo is a human-readable programming language with English-like syntax.", "tags": "dipjo,programming,language"}).
+articles.add({"id": "2", "title": "Dipjo HTTP Server", "content": "Build HTTP applications with Dipjo using the built-in server.", "tags": "dipjo,http,web"}).
+articles.add({"id": "3", "title": "Dipjo Database", "content": "Dipjo includes a built-in SQLite database for data persistence.", "tags": "dipjo,database,sqlite"}).
+articles.add({"id": "4", "title": "Python Programming Guide", "content": "Python is a popular programming language used for web development and data science.", "tags": "python,programming"}).
+articles.add({"id": "5", "title": "JavaScript Web Development", "content": "JavaScript is the language of the web, used for frontend and backend development.", "tags": "javascript,web,frontend"}).
+articles.add({"id": "6", "title": "Database Design Patterns", "content": "Learn about database design patterns and best practices for SQLite and other databases.", "tags": "database,design,sqlite"}).
+
+note Step 3: Commit the index.
+articles.commit().
+say "Indexed 6 documents".
+
+note Step 4: Search.
+remember results as articles.search("dipjo programming").
+say "Search: 'dipjo programming'".
+say "Found: ", results.total, " results".
+
+note Step 5: Autocomplete.
+remember suggestions as articles.suggest("dip").
+say "Suggestions for 'dip': ", suggestions.
+
+note Step 6: Index statistics.
+remember stats_data as articles.stats().
+say "Index statistics:".
+say "  Documents: ", stats_data.documents.
+say "  Unique terms: ", stats_data.unique_terms.
+
+note Step 7: Clean up.
+articles.close().
+say "DipjoSearch demo complete!".

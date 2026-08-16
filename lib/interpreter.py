@@ -70,6 +70,7 @@ class Interpreter:
         self.functions = {}
         self._http_request = None
         self._http_server = None
+        self._websocket_server = None
         self._cli_args = []
         self._register_builtins()
 
@@ -91,6 +92,9 @@ class Interpreter:
 
         # HTTP builtins
         self.functions["http_server"] = BuiltinFunction("http_server", self._builtin_http_server)
+
+        # WebSocket builtins
+        self.functions["websocket_server"] = BuiltinFunction("websocket_server", self._builtin_websocket_server)
 
         # JSON builtins
         self.functions["json_stringify"] = BuiltinFunction("json_stringify", self._builtin_json_stringify)
@@ -116,6 +120,11 @@ class Interpreter:
 
         # Request builtins
         self.functions["request"] = BuiltinFunction("request", self._builtin_request)
+
+        # Search builtins
+        self.functions["search_index"] = BuiltinFunction("search_index", self._builtin_search_index)
+        self.functions["search_delete_index"] = BuiltinFunction("search_delete_index", self._builtin_search_delete_index)
+        self.functions["search_list_indexes"] = BuiltinFunction("search_list_indexes", self._builtin_search_list_indexes)
 
     def _builtin_database(self, args):
         if len(args) != 1:
@@ -166,6 +175,16 @@ class Interpreter:
         server = DipjoHTTPServer(int(args[0]))
         server.set_interpreter(self)
         self._http_server = server
+        return server
+
+    # WebSocket builtins
+    def _builtin_websocket_server(self, args):
+        if len(args) != 1:
+            raise RuntimeError("websocket_server() expects exactly 1 argument (port)")
+        from websocket_server import DipjoWebSocketServer
+        server = DipjoWebSocketServer(int(args[0]))
+        server.set_interpreter(self)
+        self._websocket_server = server
         return server
 
     # JSON builtins
@@ -250,6 +269,32 @@ class Interpreter:
         if key in self._http_request:
             return self._http_request[key]
         raise RuntimeError(f"Request field '{key}' not found")
+
+    # Search builtins
+    def _builtin_search_index(self, args):
+        if len(args) < 1:
+            raise RuntimeError("search_index() expects at least 1 argument (name)")
+        from search import SearchIndex
+        name = str(args[0])
+        indexed_fields = None
+        field_weights = None
+        if len(args) > 1 and isinstance(args[1], dict):
+            config = args[1]
+            if "fields" in config:
+                indexed_fields = config["fields"]
+            if "weights" in config:
+                field_weights = config["weights"]
+        return SearchIndex(name, indexed_fields=indexed_fields, field_weights=field_weights)
+
+    def _builtin_search_delete_index(self, args):
+        if len(args) != 1:
+            raise RuntimeError("search_delete_index() expects exactly 1 argument (name)")
+        from search import SearchIndex
+        return SearchIndex.delete_index(str(args[0]))
+
+    def _builtin_search_list_indexes(self, args):
+        from search import SearchIndex
+        return SearchIndex.list_indexes()
 
     def run(self, program: Program):
         for statement in program.statements:

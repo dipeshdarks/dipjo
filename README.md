@@ -125,6 +125,7 @@ Type Dipjo code directly and see results instantly.
 | `dipjo clean` | Remove generated files (dist/, build/, cache/) |
 | `dipjo docs` | Generate documentation |
 | `dipjo serve` | Start HTTP server |
+| `dipjo search` | DipjoSearch commands (create, query, stats, ...) |
 | `dipjo doctor` | Diagnose installation |
 | `dipjo version` | Show version number |
 | `dipjo help` | Show help message |
@@ -657,6 +658,148 @@ finish function.
 
 ---
 
+## DipjoSearch
+
+DipjoSearch is a full-text search and indexing engine built into Dipjo. It provides document indexing, ranked search results, autocomplete, fuzzy matching, and persistent storage using SQLite.
+
+### Creating an Index
+
+```dipjo
+remember articles as search_index("articles").
+```
+
+### Adding Documents
+
+```dipjo
+articles.add({"id": "1", "title": "Dipjo Programming", "content": "A human-readable language."}).
+articles.add({"id": "2", "title": "Dipjo HTTP", "content": "Build HTTP apps with Dipjo."}).
+articles.commit().
+```
+
+### Searching
+
+```dipjo
+remember results as articles.search("dipjo programming").
+say results.total.
+say results.results.
+```
+
+Search results include:
+- `query` - the original query
+- `total` - number of matching documents
+- `time_ms` - search time in milliseconds
+- `results` - array of `{score, document, highlights}`
+
+### Ranking
+
+DipjoSearch uses TF-IDF ranking by default. Results are scored based on term frequency and inverse document frequency, with field weighting (title > tags > content).
+
+### Query Syntax
+
+```dipjo
+note Simple search.
+articles.search("dipjo programming").
+
+note Boolean operators.
+articles.search("dipjo AND programming").
+articles.search("dipjo OR python").
+articles.search("dipjo NOT javascript").
+
+note Phrase search.
+articles.search("\"human-readable language\"").
+
+note Field search.
+articles.search("title:dipjo").
+```
+
+### Filtering
+
+```dipjo
+remember results as articles.search("programming", {"filter": {"category": "tutorial"}}).
+```
+
+### Pagination
+
+```dipjo
+remember results as articles.search("dipjo", {"limit": 20, "offset": 0}).
+```
+
+### Autocomplete
+
+```dipjo
+remember suggestions as articles.suggest("prog").
+say suggestions.
+```
+
+### Index Statistics
+
+```dipjo
+remember stats_data as articles.stats().
+say stats_data.documents.
+say stats_data.unique_terms.
+say stats_data.average_document_length.
+```
+
+### Persistence
+
+The search index is stored in `.dipjo/data/search/<name>.db` using SQLite. Data persists between application restarts.
+
+```dipjo
+note Save and close.
+articles.commit().
+articles.close().
+
+note Later, reopen the index.
+remember articles as search_index("articles").
+remember results as articles.search("dipjo").
+```
+
+### Rebuilding an Index
+
+```dipjo
+articles.rebuild().
+```
+
+### DipjoSearch CLI Commands
+
+```bash
+dipjo search create articles
+dipjo search add articles id 1 title "Hello" content "World."
+dipjo search query articles "hello"
+dipjo search stats articles
+dipjo search rebuild articles
+dipjo search delete articles
+dipjo search list
+```
+
+### HTTP Search API
+
+When using the Dipjo HTTP server, search endpoints are automatically available:
+
+```
+GET /search/articles?q=dipjo
+GET /search/articles?q=dipjo&limit=20
+GET /search/articles?q=dipjo&limit=20&offset=10
+```
+
+Response:
+```json
+{
+    "query": "dipjo",
+    "total": 5,
+    "time_ms": 2.5,
+    "results": [
+        {
+            "score": 12.5,
+            "document": {"id": "1", "title": "Dipjo Language", "content": "..."},
+            "highlights": {"title": "Dipjo Language", "content": "... <mark>Dipjo</mark> ..."}
+        }
+    ]
+}
+```
+
+---
+
 ## Examples
 
 ### Hello World
@@ -789,6 +932,10 @@ dipjo/
 │   ├── ast_nodes.py           # AST node definitions
 │   ├── database.py            # SQLite database abstraction
 │   ├── http_server.py         # HTTP server
+│   ├── search.py              # DipjoSearch engine
+│   ├── search_tokenizer.py    # Search text tokenizer
+│   ├── search_storage.py      # Search index persistence
+│   ├── search_cli.py          # Search CLI commands
 │   └── repl.py                # Interactive REPL
 ├── syntaxes/
 │   └── dipjo.tmLanguage.json  # TextMate grammar
@@ -801,9 +948,11 @@ dipjo/
 │   ├── password.dipjo
 │   ├── guessing_game.dipjo
 │   ├── crud-app/
-│   └── url-shortener/
+│   ├── url-shortener/
+│   └── dipjo_search/
 ├── tests/
-│   └── cli.test.js
+│   ├── cli.test.js
+│   └── search.test.js
 ├── package.json
 ├── language-configuration.json
 └── README.md

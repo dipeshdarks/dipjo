@@ -1,0 +1,43 @@
+note DipjoSearch Integration Tests.
+
+note Test 1: Create a search index.
+remember articles as search_index("test_articles").
+say "Created index: test_articles".
+
+note Test 2: Add documents.
+articles.add({"id": "1", "title": "Dipjo Programming Language", "content": "Dipjo is a human-readable programming language."}).
+articles.add({"id": "2", "title": "Dipjo HTTP Server", "content": "Build HTTP applications with Dipjo."}).
+articles.add({"id": "3", "title": "Python Programming", "content": "Python is a popular programming language."}).
+articles.add({"id": "4", "title": "Web Development", "content": "Learn web development with JavaScript and Python."}).
+articles.add({"id": "5", "title": "Database Systems", "content": "SQLite is a lightweight database engine."}).
+say "Added 5 documents".
+
+note Test 3: Commit the index.
+articles.commit().
+say "Committed index".
+
+note Test 4: Count documents.
+remember doc_count as articles.count().
+say "Document count: ", doc_count.
+
+note Test 5: Search for documents.
+remember results as articles.search("dipjo programming").
+say "Search results for 'dipjo programming': ".
+say "Total: ", results.total.
+
+note Test 6: Get document stats.
+remember stats_data as articles.stats().
+say "Index stats:".
+say "  Documents: ", stats_data.documents.
+say "  Unique terms: ", stats_data.unique_terms.
+
+note Test 7: Suggest autocomplete.
+remember suggestions as articles.suggest("dip").
+say "Suggestions for 'dip': ", suggestions.
+
+note Test 8: Clean up.
+articles.clear().
+say "Cleared index".
+
+articles.close().
+say "All search tests passed!".
